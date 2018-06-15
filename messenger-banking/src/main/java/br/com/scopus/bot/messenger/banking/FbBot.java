@@ -71,7 +71,6 @@ public class FbBot extends Bot {
                 new Button().setContentType("text").setTitle("Extrato").setPayload("Extrato"),
                 new Button().setContentType("text").setTitle("Recarga").setPayload("Recarga")
         };
-        reply(event, "Como vai, " + event.getSender().getContactName());
         reply(event, new Message().setText("Em que posso ajudar?").setQuickReplies(quickReplies));
     }
 
