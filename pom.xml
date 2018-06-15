@@ -28,28 +28,4 @@
 		<module>messenger-banking</module>
 	</modules>
 	
-	<build>
-    <plugins>
-        <!-- Heroku Maven Plugin Configuration -->
-        <plugin>
-              <groupId>com.heroku.sdk</groupId>
-              <artifactId>heroku-maven-plugin</artifactId>
-              <version>2.0.3</version>
-              <configuration>
-                  <appName>callicoder-heroku-maven-demo</appName>
-                  <includeTarget>false</includeTarget>
-                  <includes>
-                      <include>scopus-messenger/target/scopus-messenger-core-1.0-SNAPSHOT.jar</include>
-                  </includes>
-                  <jdkVersion>${java.version}</jdkVersion>
-                  <processTypes>
-                      <web>web: java -Dserver.port=$PORT -jar scopus-messenger/target/messenger-banking-1.0-SNAPSHOT.jar</web>
-                  </processTypes>
-              </configuration>
-          </plugin>
-    </plugins>
-</build>
-	
-	
-	
 </project>
