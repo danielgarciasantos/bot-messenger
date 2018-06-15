@@ -110,7 +110,9 @@ public abstract class Bot extends BaseBot {
             if (!callback.getObject().equals("page")) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            logger.info("Callback from fb: {}", callback);
+            logger.debug("Callback from fb: {}", callback);
+            logger.debug("Callback from fb: {}", callback.getEntry()[0].getMessaging()[0].getRecipient());
+            logger.debug("Callback from fb: {}", callback.getEntry()[0].getMessaging()[0].getSender());
             for (Entry entry : callback.getEntry()) {
                 if (entry.getMessaging() != null) {
                     for (Event event : entry.getMessaging()) {
