@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: scopus-messenger-core
+Implementation-Version: 1.0-SNAPSHOT
+Built-By: dgarcia
+Implementation-Vendor-Id: br.com.scopus.bot.messenger
+Build-Jdk: 1.8.0_161
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/scopus-messenger/scopus-messenger-core
+Created-By: Maven Integration for Eclipse
+

@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId> br.com.scopus.bot.messenger</groupId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.2.RELEASE</version>
+        <relativePath /> <!-- lookup parent from repository -->
+    </parent>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+	</properties>
+	
+		<!-- deploy artifacts into this repo -->
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>Repositorio de Releases</name>
+			<url>http://${ip.nexus}/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Repositorios de Snapshots</name>
+			<url>http://${ip.nexus}/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<!-- download artifacts from this repo -->
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>nexus</name>
+			<url>http://${ip.nexus}/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<!-- download plugins from this repo -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>central</id>
+			<name>nexus</name>
+			<url>http://${ip.nexus}/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<artifactId>scopus-messenger</artifactId>
+	<modules>
+		<module>scopus-messenger-core</module>
+		<module>messenger-banking</module>
+	</modules>
+</project>
