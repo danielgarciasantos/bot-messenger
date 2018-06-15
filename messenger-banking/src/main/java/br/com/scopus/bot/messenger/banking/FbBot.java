@@ -63,14 +63,17 @@ public class FbBot extends Bot {
      *
      * @param event
      */
-    @Controller(events = {EventType.MESSAGE, EventType.POSTBACK}, pattern = "^(?i)(hi|hello|hey)$")
+    @Controller(events = { EventType.MESSAGE }, pattern = "^(?i)(ola|olá|oi|como vai|ops)$")
     public void onGetStarted(Event event) {
+        
         // quick reply buttons
         Button[] quickReplies = new Button[]{
-                new Button().setContentType("text").setTitle("Sure").setPayload("yes"),
-                new Button().setContentType("text").setTitle("Nope").setPayload("no")
+                new Button().setContentType("text").setTitle("Saldo").setPayload("Saldo"),
+                new Button().setContentType("text").setTitle("Extrato").setPayload("Extrato"),
+                new Button().setContentType("text").setTitle("Recarga").setPayload("Recarga")
         };
-        reply(event, new Message().setText("Hello, I am JBot. Would you like to see more?").setQuickReplies(quickReplies));
+        reply(event, "Como vai," + event.getRecipient().getContactName());
+        reply(event, new Message().setText("Em que posso ajudar?").setQuickReplies(quickReplies));
     }
 
     /**
@@ -134,7 +137,7 @@ public class FbBot extends Bot {
      *
      * @param event
      */
-    @Controller(events = EventType.MESSAGE, pattern = "(?i)(bye|tata|ttyl|cya|see you)")
+    @Controller(events = EventType.MESSAGE, pattern = "(?i)(bye|tchau|fui|falou|flw|até|até)")
     public void showGithubLink(Event event) {
         reply(event, new Message().setAttachment(new Attachment().setType("template").setPayload(new Payload()
                 .setTemplateType("button").setText("Bye. Happy coding!").setButtons(new Button[]{new Button()
