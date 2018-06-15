@@ -72,7 +72,7 @@ public class FbBot extends Bot {
                 new Button().setContentType("text").setTitle("Extrato").setPayload("Extrato"),
                 new Button().setContentType("text").setTitle("Recarga").setPayload("Recarga")
         };
-        reply(event, "Como vai," + event.getRecipient().getContactName());
+        reply(event, "Como vai, " + event.getRecipient().getFirstName());
         reply(event, new Message().setText("Em que posso ajudar?").setQuickReplies(quickReplies));
     }
 
@@ -104,32 +104,6 @@ public class FbBot extends Bot {
         };
         reply(event, new Message().setAttachment(new Attachment().setType("template").setPayload(new Payload()
                 .setTemplateType("button").setText("These are 2 link buttons.").setButtons(buttons))));
-    }
-
-    /**
-     * This method is invoked when the user types "Show List" or something which has "list" in it as defined
-     * in the {@code pattern}.
-     *
-     * @param event
-     */
-    @Controller(events = EventType.MESSAGE, pattern = "(?i:list)")
-    public void showList(Event event) {
-        Element[] elements = new Element[]{
-                new Element().setTitle("AnimateScroll").setSubtitle("A jQuery Plugin for Animating Scroll.")
-                        .setImageUrl("https://plugins.compzets.com/images/as-logo.png")
-                        .setDefaultAction(new Button().setType("web_url").setMessengerExtensions(true)
-                        .setUrl("https://plugins.compzets.com/animatescroll/")),
-                new Element().setTitle("Windows on Top").setSubtitle("Keeps a specific Window on Top of all others.")
-                        .setImageUrl("https://plugins.compzets.com/images/compzets-logo.png")
-                        .setDefaultAction(new Button().setType("web_url").setMessengerExtensions(true)
-                        .setUrl("https://www.compzets.com/view-upload.php?id=702&action=view")),
-                new Element().setTitle("SimpleFill").setSubtitle("Simplest form filler ever.")
-                        .setImageUrl("https://plugins.compzets.com/simplefill/chrome-extension/icon-64.png")
-                        .setDefaultAction(new Button().setType("web_url").setMessengerExtensions(true)
-                        .setUrl("https://plugins.compzets.com/simplefill/"))
-        };
-        reply(event, new Message().setAttachment(new Attachment().setType("template").setPayload(new Payload()
-                .setTemplateType("list").setElements(elements))));
     }
 
     /**
