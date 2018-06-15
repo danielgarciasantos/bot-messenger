@@ -8,7 +8,6 @@ import br.com.scopus.messenger.core.common.EventType;
 import br.com.scopus.messenger.core.common.IBot;
 import br.com.scopus.messenger.core.models.Attachment;
 import br.com.scopus.messenger.core.models.Button;
-import br.com.scopus.messenger.core.models.Element;
 import br.com.scopus.messenger.core.models.Event;
 import br.com.scopus.messenger.core.models.Message;
 import br.com.scopus.messenger.core.models.Payload;
