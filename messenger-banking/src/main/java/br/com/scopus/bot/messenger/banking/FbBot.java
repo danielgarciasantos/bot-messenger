@@ -1,8 +1,13 @@
 package br.com.scopus.bot.messenger.banking;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import java.util.Calendar;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.com.scopus.bot.messenger.banking.config.MessengerConfig;
+import br.com.scopus.bot.messenger.banking.enums.Step;
+import br.com.scopus.bot.messenger.banking.util.MessengerBankingUtils;
 import br.com.scopus.messenger.core.Bot;
 import br.com.scopus.messenger.core.common.Controller;
 import br.com.scopus.messenger.core.common.EventType;
@@ -19,33 +24,23 @@ import br.com.scopus.messenger.core.models.Payload;
  *
  */
 @IBot
-@Service
 public class FbBot extends Bot {
 
-    /**
-     * Set this property in {@code application.properties}.
-     */
-    @Value("${fbBotToken}")
-    private String fbToken;
-
-    /**
-     * Set this property in {@code application.properties}.
-     */
-    @Value("${fbPageAccessToken}")
-    private String pageAccessToken;
+    @Autowired
+    private MessengerConfig config;
 
     @Override
     public String getFbToken() {
-        return fbToken;
+        return this.config.getFbToken();
     }
 
     @Override
     public String getPageAccessToken() {
-        return pageAccessToken;
+        return this.config.getPageAccessToken();
     }
 
-    @Value("${text.messenger.extrato}")
-    private String msgExtrato;
+    @Autowired
+    private MessengerBankingUtils utils;
 
     /**
      * Sets the "Get Started" button with a payload "hi". It also set the "Greeting Text" which the
@@ -77,7 +72,42 @@ public class FbBot extends Bot {
             new Button().setContentType("text").setTitle("Saldo").setPayload("Saldo"),
             new Button().setContentType("text").setTitle("Extrato").setPayload("Extrato"),
             new Button().setContentType("text").setTitle("Recarga").setPayload("Recarga") };
-        reply(event, new Message().setText("Em que posso ajudar?").setQuickReplies(quickReplies));
+        reply(event,
+            new Message().setText(this.utils.getProperty(Step.SAUDACAO.getText())).setQuickReplies(quickReplies));
+    }
+    
+    /**
+     * Este metodo e invocado quando o usario envia as palavras(saldo) o botao de
+     * "Extrato".
+     * 
+     * @param event
+     */
+    @Controller(events = EventType.MESSAGE, pattern = "(?i)(saldo)")
+    public void replySaldoMessage(Event event) {
+        String strDate = DateFormatUtils.format(Calendar.getInstance(), "dd/MM/yyyy HH:mm");
+        reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00"));
+    }
+
+    /**
+     * Este metodo e invocado quando o usario envia as palavras(Saldo|saldo) o botao de "Saldo".
+     * 
+     * @param event
+     */
+    @Controller(events = EventType.QUICK_REPLY, pattern = "Saldo")
+    public void onReceiveQuickReply(Event event) {
+        String strDate = DateFormatUtils.format(Calendar.getInstance(), "dd/MM/yyyy HH:mm");
+        reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00"));
+    }
+
+    /**
+     * Este metodo e invocado quando o usario envia as palavras(Extrato|extrato|estrato) o botao de
+     * "Extrato".
+     * 
+     * @param event
+     */
+    @Controller(events = EventType.MESSAGE, pattern = "(?i)(extrato|estrato)")
+    public void replyExtatoMessage(Event event) {
+        reply(event, Step.EXTRATO.getText());
     }
 
     /**
@@ -87,18 +117,7 @@ public class FbBot extends Bot {
      */
     @Controller(events = EventType.QUICK_REPLY, pattern = "Extrato")
     public void replyExtatoReply(Event event) {
-        reply(event, this.getMsgExtrato());
-    }
-
-    /**
-     * Este metodo e invocado quando o usario envia as palavras(Extrato|extrato|estrato) o botao de
-     * "Extrato".
-     * 
-     * @param event
-     */
-    @Controller(events = EventType.MESSAGE, pattern = "(Extrato|extrato|estrato|Estrato)")
-    public void replyExtatoMessage(Event event) {
-        reply(event, this.getMsgExtrato());
+        reply(event, Step.EXTRATO.getText());
     }
 
     /**
@@ -191,13 +210,5 @@ public class FbBot extends Bot {
             reply(event, "Okay, don't forget to attend the meeting tomorrow :)");
         }
         stopConversation(event); // stop conversation
-    }
-
-    public String getMsgExtrato() {
-        return msgExtrato;
-    }
-
-    public void setMsgExtrato(String msgExtrato) {
-        this.msgExtrato = msgExtrato;
     }
 }
