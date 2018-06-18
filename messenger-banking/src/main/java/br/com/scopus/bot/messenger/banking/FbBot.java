@@ -78,11 +78,11 @@ public class FbBot extends Bot {
     
     /**
      * Este metodo e invocado quando o usario envia as palavras(saldo) o botao de
-     * "Extrato".
+     * "Saldo".
      * 
      * @param event
      */
-    @Controller(events = EventType.MESSAGE, pattern = "(?i)(saldo)")
+    @Controller(events = EventType.MESSAGE, pattern = "(?i)(saldo)$")
     public void replySaldoMessage(Event event) {
         String strDate = DateFormatUtils.format(Calendar.getInstance(), "dd/MM/yyyy HH:mm");
         reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00"));
@@ -96,7 +96,7 @@ public class FbBot extends Bot {
     @Controller(events = EventType.QUICK_REPLY, pattern = "Saldo")
     public void onReceiveQuickReply(Event event) {
         String strDate = DateFormatUtils.format(Calendar.getInstance(), "dd/MM/yyyy HH:mm");
-        reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00"));
+        reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00", "1.000,00", "1.000,00"));
     }
 
     /**
@@ -105,9 +105,9 @@ public class FbBot extends Bot {
      * 
      * @param event
      */
-    @Controller(events = EventType.MESSAGE, pattern = "(?i)(extrato|estrato)")
+    @Controller(events = EventType.MESSAGE, pattern = "(?i)(extrato|estrato)$")
     public void replyExtatoMessage(Event event) {
-        reply(event, Step.EXTRATO.getText());
+        reply(event, this.utils.getProperty(Step.EXTRATO.getText()));
     }
 
     /**
@@ -117,7 +117,7 @@ public class FbBot extends Bot {
      */
     @Controller(events = EventType.QUICK_REPLY, pattern = "Extrato")
     public void replyExtatoReply(Event event) {
-        reply(event, Step.EXTRATO.getText());
+        reply(event, this.utils.getProperty(Step.EXTRATO.getText()));
     }
 
     /**
