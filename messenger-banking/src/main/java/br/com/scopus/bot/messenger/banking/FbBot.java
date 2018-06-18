@@ -68,6 +68,10 @@ public class FbBot extends Bot {
     public void onGetStarted(Event event) {
 
         // quick reply buttons
+        retornaMenu(event);
+    }
+
+    private void retornaMenu(Event event) {
         Button[] quickReplies = new Button[] {
             new Button().setContentType("text").setTitle("Saldo").setPayload("Saldo"),
             new Button().setContentType("text").setTitle("Extrato").setPayload("Extrato"),
@@ -75,17 +79,15 @@ public class FbBot extends Bot {
         reply(event,
             new Message().setText(this.utils.getProperty(Step.SAUDACAO.getText())).setQuickReplies(quickReplies));
     }
-    
+
     /**
-     * Este metodo e invocado quando o usario envia as palavras(saldo) o botao de
-     * "Saldo".
+     * Este metodo e invocado quando o usario envia as palavras(saldo) o botao de "Saldo".
      * 
      * @param event
      */
     @Controller(events = EventType.MESSAGE, pattern = "(?i)(saldo)$")
     public void replySaldoMessage(Event event) {
-        String strDate = DateFormatUtils.format(Calendar.getInstance(), "dd/MM/yyyy HH:mm");
-        reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00"));
+        retornaSaldo(event);
     }
 
     /**
@@ -95,8 +97,14 @@ public class FbBot extends Bot {
      */
     @Controller(events = EventType.QUICK_REPLY, pattern = "Saldo")
     public void onReceiveQuickReply(Event event) {
+        retornaSaldo(event);
+    }
+
+    private void retornaSaldo(Event event) {
         String strDate = DateFormatUtils.format(Calendar.getInstance(), "dd/MM/yyyy HH:mm");
         reply(event, this.utils.getProperty(Step.SEU_SALDO.getText(), strDate, "1.000,00", "1.000,00", "1.000,00"));
+        reply(event, this.utils.getProperty(Step.MAIS_ALGUMA_COISA.getText()));
+        retornaMenu(event);
     }
 
     /**
@@ -107,7 +115,7 @@ public class FbBot extends Bot {
      */
     @Controller(events = EventType.MESSAGE, pattern = "(?i)(extrato|estrato)$")
     public void replyExtatoMessage(Event event) {
-        reply(event, this.utils.getProperty(Step.EXTRATO.getText()));
+        retornaExtrato(event);
     }
 
     /**
@@ -117,7 +125,13 @@ public class FbBot extends Bot {
      */
     @Controller(events = EventType.QUICK_REPLY, pattern = "Extrato")
     public void replyExtatoReply(Event event) {
+        retornaExtrato(event);
+    }
+
+    private void retornaExtrato(Event event) {
         reply(event, this.utils.getProperty(Step.EXTRATO.getText()));
+        reply(event, this.utils.getProperty(Step.MAIS_ALGUMA_COISA.getText()));
+        retornaMenu(event);
     }
 
     /**
